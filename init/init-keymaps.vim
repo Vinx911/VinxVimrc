@@ -231,4 +231,7 @@ endfunc
 "----------------------------------------------------------------------
 
 inoremap jk <ESC>
-
+               
+if index(g:coc_global_extensions, "coc-explorer") >= 0
+    nmap <leader>e :CocCommand explorer<cr>
+endif 

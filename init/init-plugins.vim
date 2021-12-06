@@ -43,7 +43,8 @@ if index(g:plugin_group, 'airline') >= 0
 
 	" 成对插入或删除括号、括号、引号。
 	Plug 'jiangmiao/auto-pairs'
-endif
+
+    endif
 
 
 "----------------------------------------------------------------------
@@ -91,7 +92,9 @@ if index(g:plugin_group, 'coc') >= 0
         \ 'coc-vimlsp',
 		\ 'coc-tsserver',
 		\ 'coc-json',
+        \ 'coc-diagnostic',
         \ 'coc-explorer',
+        \ 'coc-snippets',
         \ 'coc-yank',
         \]
 
@@ -151,7 +154,7 @@ if index(g:plugin_group, 'coc') >= 0
     xmap <leader>f  <Plug>(coc-format-selected)
     nmap <leader>f  <Plug>(coc-format-selected)
     
-
+    nmap <leader>e :CocCommand explorer<CR>
 
 
     
@@ -179,6 +182,10 @@ Plug 'neoclide/jsonc.vim'
 " rust 语法增强
 "Plug 'sheerun/vim-polyglot'
 "Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+
+" 必须最后一个加载
+" 字体图标支持
+Plug 'ryanoasis/vim-devicons'
 
 "----------------------------------------------------------------------
 " 结束插件安装
