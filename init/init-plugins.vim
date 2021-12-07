@@ -39,12 +39,19 @@ call plug#begin(get(g:, 'plugin_home', '~/.vim/plugins'))
 "----------------------------------------------------------------------
 " basic
 "----------------------------------------------------------------------
-if index(g:plugin_group, 'airline') >= 0
+if index(g:plugin_group, 'basic') >= 0
+
+	" 启动屏幕
+	Plug 'mhinz/vim-startify'
+	let g:startify_custom_header = 'startify#pad(split(system("figlet -w 100 VINX VIM"), "\n"))'
+	
+    " 状态栏滚动条
+    Plug 'ojroques/vim-scrollstatus'
 
 	" 成对插入或删除括号、括号、引号。
-	Plug 'jiangmiao/auto-pairs'
+    Plug 'jiangmiao/auto-pairs'
 
-    endif
+endif
 
 
 "----------------------------------------------------------------------
@@ -66,6 +73,12 @@ if index(g:plugin_group, 'airline') >= 0
 	let g:airline#extensions#fugitiveline#enabled = 0
 	let g:airline#extensions#csv#enabled = 0
 	let g:airline#extensions#vimagit#enabled = 0
+    let g:airline_section_x = '%{ScrollStatus()}'
+    let g:airline_section_y = airline#section#create_right(['filetype'])
+    let g:airline_section_z = airline#section#create([
+            \ '%#__accent_bold#%3l%#__restore__#/%L', ' ',
+            \ '%#__accent_bold#%3v%#__restore__#/%3{virtcol("$") - 1}',
+            \ ])
 endif
 
 
@@ -91,81 +104,36 @@ if index(g:plugin_group, 'coc') >= 0
     let g:coc_global_extensions = [
         \ 'coc-vimlsp',
 		\ 'coc-tsserver',
+		\ 'coc-clangd',
+		\ 'coc-cmake',
+		\ 'coc-css',
+		\ 'coc-go',
+		\ 'coc-golines',
+		\ 'coc-html',
 		\ 'coc-json',
+		\ 'coc-pyright',
+		\ 'coc-python',
+		\ 'coc-prettier',
+		\ 'coc-rust-analyzer',
+		\ 'coc-stylelint',
+		\ 'coc-toml',
+		\ 'coc-xml',
+		\ 'coc-yaml',
         \ 'coc-diagnostic',
         \ 'coc-explorer',
+        \ 'coc-gitignore',
+        \ 'coc-highlight',
+        \ 'coc-lists',
         \ 'coc-snippets',
+		\ 'coc-tasks',
+        \ 'coc-translator',
         \ 'coc-yank',
         \]
-
-    " <TAB>切换补全
-    inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
-
-    " 使用 <Alt-m> 触发补全
-    if has('nvim')
-        inoremap <silent><expr> <M-m> coc#refresh()
-    else
-        inoremap <silent><expr> <M-m> coc#refresh()
-    endif
-
-    " 回车键确认补全
-    "inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-    "                          \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-    " 使用 `<Leader>-` 和 `<Leader>=` 跳转错误诊断
-    " 使用 `:CocDiagnostics` 获取位置列表中当前缓冲区的所有诊断信息。
-    nmap <silent> <leader>- <Plug>(coc-diagnostic-prev)
-    nmap <silent> <leader>= <Plug>(coc-diagnostic-next)
-
-    " 跳转到代码定义/类型定义/实现/调用
-    nmap <silent> <leader>gd <Plug>(coc-definition)
-    nmap <silent> <leader>gy <Plug>(coc-type-definition)
-    nmap <silent> <leader>gi <Plug>(coc-implementation)
-    nmap <silent> <leader>gr <Plug>(coc-references)
-
-    " 显示帮助文档预览窗口
-    nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
-    function! s:show_documentation()
-        if (index(['vim','help'], &filetype) >= 0)
-            execute 'h '.expand('<cword>')
-        elseif (coc#rpc#ready())
-            call CocActionAsync('doHover')
-        else
-            execute '!' . &keywordprg . " " . expand('<cword>')
-        endif
-    endfunction
 
     " 高亮光标出符号及其引用。
     autocmd CursorHold * silent call CocActionAsync('highlight')
 
-    " 重命名符号
-    nmap <leader>rn <Plug>(coc-rename)
-
-    " 格式化选中的代码
-    xmap <leader>f  <Plug>(coc-format-selected)
-    nmap <leader>f  <Plug>(coc-format-selected)
     
-    nmap <leader>e :CocCommand explorer<CR>
-
-
-    
-
-
-    "----------------------------------------------------------------------
-    " coc-yank
-    "----------------------------------------------------------------------
-    if index(g:coc_global_extensions, 'coc-yank') >= 0
-        nnoremap <silent> <space>y :<C-u>CocList -A --normal yank<cr>
-    endif
 endif
 
 if index(g:plugin_group, 'vimspector') >= 0
