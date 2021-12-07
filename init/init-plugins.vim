@@ -14,9 +14,9 @@
 " 默认情况下的分组，可以再前面覆盖之
 "----------------------------------------------------------------------
 if !exists('g:plugin_group')
-	let g:plugin_group = ['basic',  'airline', 'vim-peekaboo', 'coc', 'vimspector', 'enhanced', 'filetypes', 'textobj']
-	let g:plugin_group += ['tags', 'nerdtree', 'ale', 'echodoc']
-	let g:plugin_group += ['leaderf', 'YouCompleteMe', 'vimcdoc', 'neomake']
+    let g:plugin_group = ['basic',  'airline', 'vim-peekaboo', 'coc', 'vimspector', 'enhanced', 'filetypes', 'textobj']
+    let g:plugin_group += ['tags', 'nerdtree', 'ale', 'echodoc']
+    let g:plugin_group += ['leaderf', 'YouCompleteMe', 'vimcdoc', 'neomake']
 endif
 
 
@@ -26,8 +26,8 @@ endif
 let s:home = fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
 
 function! s:path(path)
-	let path = expand(s:home . '/' . a:path )
-	return substitute(path, '\\', '/', 'g')
+    let path = expand(s:home . '/' . a:path )
+    return substitute(path, '\\', '/', 'g')
 endfunc
 
 
@@ -41,11 +41,11 @@ call plug#begin(get(g:, 'plugin_home', '~/.vim/plugins'))
 "----------------------------------------------------------------------
 if index(g:plugin_group, 'basic') >= 0
 
-	" 启动屏幕
-	Plug 'mhinz/vim-startify'
-	let g:startify_custom_header = 'startify#pad(split(system("figlet -w 100 VINX VIM"), "\n"))'
-	
-	" 成对插入或删除括号、括号、引号。
+    " 启动屏幕
+    Plug 'mhinz/vim-startify'
+    let g:startify_custom_header = 'startify#pad(split(system("figlet -w 100 VINX VIM"), "\n"))'
+    
+    " 成对插入或删除括号、括号、引号。
     Plug 'jiangmiao/auto-pairs'
 
 endif
@@ -55,21 +55,21 @@ endif
 " airline
 "----------------------------------------------------------------------
 if index(g:plugin_group, 'airline') >= 0
-	Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes'
-	let g:airline_left_sep = ''
-	let g:airline_left_alt_sep = ''
-	let g:airline_right_sep = ''
-	let g:airline_right_alt_sep = ''
-	let g:airline_powerline_fonts = 0
-	let g:airline_exclude_preview = 1
-	let g:airline_section_b = '%n'
-	let g:airline_theme='deus'
-	let g:airline#extensions#branch#enabled = 0
-	let g:airline#extensions#syntastic#enabled = 0
-	let g:airline#extensions#fugitiveline#enabled = 0
-	let g:airline#extensions#csv#enabled = 0
-	let g:airline#extensions#vimagit#enabled = 0
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    let g:airline_powerline_fonts = 0
+    let g:airline_exclude_preview = 1
+    let g:airline_section_b = '%n'
+    let g:airline_theme='deus'
+    let g:airline#extensions#branch#enabled = 0
+    let g:airline#extensions#syntastic#enabled = 0
+    let g:airline#extensions#fugitiveline#enabled = 0
+    let g:airline#extensions#csv#enabled = 0
+    let g:airline#extensions#vimagit#enabled = 0
 endif
 
 
@@ -94,29 +94,29 @@ if index(g:plugin_group, 'coc') >= 0
 
     let g:coc_global_extensions = [
         \ 'coc-vimlsp',
-		\ 'coc-tsserver',
-		\ 'coc-clangd',
-		\ 'coc-cmake',
-		\ 'coc-css',
-		\ 'coc-go',
-		\ 'coc-golines',
-		\ 'coc-html',
-		\ 'coc-json',
-		\ 'coc-pyright',
-		\ 'coc-python',
-		\ 'coc-prettier',
-		\ 'coc-rust-analyzer',
-		\ 'coc-stylelint',
-		\ 'coc-toml',
-		\ 'coc-xml',
-		\ 'coc-yaml',
+        \ 'coc-tsserver',
+        \ 'coc-clangd',
+        \ 'coc-cmake',
+        \ 'coc-css',
+        \ 'coc-go',
+        \ 'coc-golines',
+        \ 'coc-html',
+        \ 'coc-json',
+        \ 'coc-pyright',
+        \ 'coc-python',
+        \ 'coc-prettier',
+        \ 'coc-rust-analyzer',
+        \ 'coc-stylelint',
+        \ 'coc-toml',
+        \ 'coc-xml',
+        \ 'coc-yaml',
         \ 'coc-diagnostic',
         \ 'coc-explorer',
         \ 'coc-gitignore',
         \ 'coc-highlight',
         \ 'coc-lists',
         \ 'coc-snippets',
-		\ 'coc-tasks',
+        \ 'coc-tasks',
         \ 'coc-translator',
         \ 'coc-yank',
         \]
@@ -124,7 +124,7 @@ if index(g:plugin_group, 'coc') >= 0
     " 高亮光标出符号及其引用。
     autocmd CursorHold * silent call CocActionAsync('highlight')
 
-    
+
 endif
 
 if index(g:plugin_group, 'vimspector') >= 0
