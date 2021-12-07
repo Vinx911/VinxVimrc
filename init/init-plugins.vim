@@ -1,6 +1,6 @@
 "======================================================================
 "
-" init-plugins.vim - 
+" init-plugins.vim -
 "
 " Created by vinx on 2021.12.04
 " Last Modified: 2021.12.04 18:17:03
@@ -44,7 +44,7 @@ if index(g:plugin_group, 'basic') >= 0
     " 启动屏幕
     Plug 'mhinz/vim-startify'
     let g:startify_custom_header = 'startify#pad(split(system("figlet -w 100 VINX VIM"), "\n"))'
-    
+
     " 成对插入或删除括号、括号、引号。
     Plug 'jiangmiao/auto-pairs'
 

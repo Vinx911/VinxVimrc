@@ -102,18 +102,18 @@ noremap <silent> <leader>to :tabonly<cr>
 
 " 左移 tab
 function! Tab_MoveLeft()
-	let l:tabnr = tabpagenr() - 2
-	if l:tabnr >= 0
-		exec 'tabmove '.l:tabnr
-	endif
+    let l:tabnr = tabpagenr() - 2
+    if l:tabnr >= 0
+        exec 'tabmove '.l:tabnr
+    endif
 endfunc
 
 " 右移 tab
 function! Tab_MoveRight()
-	let l:tabnr = tabpagenr() + 1
-	if l:tabnr <= tabpagenr('$')
-		exec 'tabmove '.l:tabnr
-	endif
+    let l:tabnr = tabpagenr() + 1
+    if l:tabnr <= tabpagenr('$')
+        exec 'tabmove '.l:tabnr
+    endif
 endfunc
 
 noremap <silent><leader>tl :call Tab_MoveLeft()<cr>
@@ -132,7 +132,7 @@ noremap <m-l> w
 inoremap <m-h> <c-left>
 inoremap <m-l> <c-right>
 
-" ALT+j/k 逻辑跳转下一行/上一行（按 wrap 逻辑换行进行跳转） 
+" ALT+j/k 逻辑跳转下一行/上一行（按 wrap 逻辑换行进行跳转）
 noremap <m-j> gj
 noremap <m-k> gk
 inoremap <m-j> <c-\><c-o>gj
@@ -162,21 +162,21 @@ inoremap <m-J> <esc><c-w>j
 inoremap <m-K> <esc><c-w>k
 
 if has('terminal') && exists(':terminal') == 2 && has('patch-8.1.1')
-	" vim 8.1 支持 termwinkey ，不需要把 terminal 切换成 normal 模式
-	" 设置 termwinkey 为 CTRL 加减号（GVIM），有些终端下是 CTRL+?
-	" 后面四个键位是搭配 termwinkey 的，如果 termwinkey 更改，也要改
-	tnoremap <m-H> <c-_>h
-	tnoremap <m-L> <c-_>l
-	tnoremap <m-J> <c-_>j
-	tnoremap <m-K> <c-_>k
-	tnoremap <m-q> <c-\><c-n>
+    " vim 8.1 支持 termwinkey ，不需要把 terminal 切换成 normal 模式
+    " 设置 termwinkey 为 CTRL 加减号（GVIM），有些终端下是 CTRL+?
+    " 后面四个键位是搭配 termwinkey 的，如果 termwinkey 更改，也要改
+    tnoremap <m-H> <c-_>h
+    tnoremap <m-L> <c-_>l
+    tnoremap <m-J> <c-_>j
+    tnoremap <m-K> <c-_>k
+    tnoremap <m-q> <c-\><c-n>
 elseif has('nvim')
-	" neovim 没有 termwinkey 支持，必须把 terminal 切换回 normal 模式
-	tnoremap <m-H> <c-\><c-n><c-w>h
-	tnoremap <m-L> <c-\><c-n><c-w>l
-	tnoremap <m-J> <c-\><c-n><c-w>j
-	tnoremap <m-K> <c-\><c-n><c-w>k
-	tnoremap <m-q> <c-\><c-n>
+    " neovim 没有 termwinkey 支持，必须把 terminal 切换回 normal 模式
+    tnoremap <m-H> <c-\><c-n><c-w>h
+    tnoremap <m-L> <c-\><c-n><c-w>l
+    tnoremap <m-J> <c-\><c-n><c-w>j
+    tnoremap <m-K> <c-\><c-n><c-w>k
+    tnoremap <m-q> <c-\><c-n>
 endif
 
 
@@ -184,45 +184,45 @@ endif
 " F5 运行当前文件：根据文件类型判断方法，并且输出到 quickfix 窗口
 "----------------------------------------------------------------------
 function! ExecuteFile()
-	let cmd = ''
-	if index(['c', 'cpp', 'rs', 'go'], &ft) >= 0
-		" native 语言，把当前文件名去掉扩展名后作为可执行运行
-		" 写全路径名是因为后面 -cwd=? 会改变运行时的当前路径，所以写全路径
-		" 加双引号是为了避免路径中包含空格
-		let cmd = '"$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
-	elseif &ft == 'python'
-		let $PYTHONUNBUFFERED=1 " 关闭 python 缓存，实时看到输出
-		let cmd = 'python "$(VIM_FILEPATH)"'
-	elseif &ft == 'javascript'
-		let cmd = 'node "$(VIM_FILEPATH)"'
-	elseif &ft == 'perl'
-		let cmd = 'perl "$(VIM_FILEPATH)"'
-	elseif &ft == 'ruby'
-		let cmd = 'ruby "$(VIM_FILEPATH)"'
-	elseif &ft == 'php'
-		let cmd = 'php "$(VIM_FILEPATH)"'
-	elseif &ft == 'lua'
-		let cmd = 'lua "$(VIM_FILEPATH)"'
-	elseif &ft == 'zsh'
-		let cmd = 'zsh "$(VIM_FILEPATH)"'
-	elseif &ft == 'ps1'
-		let cmd = 'powershell -file "$(VIM_FILEPATH)"'
-	elseif &ft == 'vbs'
-		let cmd = 'cscript -nologo "$(VIM_FILEPATH)"'
-	elseif &ft == 'sh'
-		let cmd = 'bash "$(VIM_FILEPATH)"'
-	else
-		return
-	endif
-	" Windows 下打开新的窗口 (-mode=4) 运行程序，其他系统在 quickfix 运行
-	" -raw: 输出内容直接显示到 quickfix window 不匹配 errorformat
-	" -save=2: 保存所有改动过的文件
-	" -cwd=$(VIM_FILEDIR): 运行初始化目录为文件所在目录
-	if has('win32') || has('win64')
-		exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=4 '. cmd
-	else
-		exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=0 '. cmd
-	endif
+    let cmd = ''
+    if index(['c', 'cpp', 'rs', 'go'], &ft) >= 0
+        " native 语言，把当前文件名去掉扩展名后作为可执行运行
+        " 写全路径名是因为后面 -cwd=? 会改变运行时的当前路径，所以写全路径
+        " 加双引号是为了避免路径中包含空格
+        let cmd = '"$(VIM_FILEDIR)/$(VIM_FILENOEXT)"'
+    elseif &ft == 'python'
+        let $PYTHONUNBUFFERED=1 " 关闭 python 缓存，实时看到输出
+        let cmd = 'python "$(VIM_FILEPATH)"'
+    elseif &ft == 'javascript'
+        let cmd = 'node "$(VIM_FILEPATH)"'
+    elseif &ft == 'perl'
+        let cmd = 'perl "$(VIM_FILEPATH)"'
+    elseif &ft == 'ruby'
+        let cmd = 'ruby "$(VIM_FILEPATH)"'
+    elseif &ft == 'php'
+        let cmd = 'php "$(VIM_FILEPATH)"'
+    elseif &ft == 'lua'
+        let cmd = 'lua "$(VIM_FILEPATH)"'
+    elseif &ft == 'zsh'
+        let cmd = 'zsh "$(VIM_FILEPATH)"'
+    elseif &ft == 'ps1'
+        let cmd = 'powershell -file "$(VIM_FILEPATH)"'
+    elseif &ft == 'vbs'
+        let cmd = 'cscript -nologo "$(VIM_FILEPATH)"'
+    elseif &ft == 'sh'
+        let cmd = 'bash "$(VIM_FILEPATH)"'
+    else
+        return
+    endif
+    " Windows 下打开新的窗口 (-mode=4) 运行程序，其他系统在 quickfix 运行
+    " -raw: 输出内容直接显示到 quickfix window 不匹配 errorformat
+    " -save=2: 保存所有改动过的文件
+    " -cwd=$(VIM_FILEDIR): 运行初始化目录为文件所在目录
+    if has('win32') || has('win64')
+        exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=4 '. cmd
+    else
+        exec 'AsyncRun -cwd=$(VIM_FILEDIR) -raw -save=2 -mode=0 '. cmd
+    endif
 endfunc
 
 
@@ -243,7 +243,7 @@ if index(g:plugin_group, "coc") >= 0
         \ pumvisible() ? "\<C-n>" :
         \ <SID>check_back_space() ? "\<TAB>" :
         \ coc#refresh()
-		
+
     inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
     function! s:check_back_space() abort
@@ -292,60 +292,60 @@ if index(g:plugin_group, "coc") >= 0
     " 格式化选中的代码
     xmap <leader>f  <Plug>(coc-format-selected)
     nmap <leader>f  <Plug>(coc-format-selected)
-    
+
     nmap <leader>e :CocCommand explorer<CR>
 
     if index(g:coc_global_extensions, "coc-explorer") >= 0
-		nmap <leader>e :CocCommand explorer<cr>
-	endif 
-			
-	if index(g:coc_global_extensions, "coc-snippets") >= 0
-		" Use <C-l> for trigger snippet expand.
-		imap <C-l> <Plug>(coc-snippets-expand)
+        nmap <leader>e :CocCommand explorer<cr>
+    endif
 
-		" Use <C-j> for select text for visual placeholder of snippet.
-		vmap <C-j> <Plug>(coc-snippets-select)
+    if index(g:coc_global_extensions, "coc-snippets") >= 0
+        " Use <C-l> for trigger snippet expand.
+        imap <C-l> <Plug>(coc-snippets-expand)
 
-		" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-		let g:coc_snippet_next = '<c-j>'
+        " Use <C-j> for select text for visual placeholder of snippet.
+        vmap <C-j> <Plug>(coc-snippets-select)
 
-		" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-		let g:coc_snippet_prev = '<c-k>'
+        " Use <C-j> for jump to next placeholder, it's default of coc.nvim
+        let g:coc_snippet_next = '<c-j>'
 
-		" Use <C-j> for both expand and jump (make expand higher priority.)
-		imap <C-j> <Plug>(coc-snippets-expand-jump)
+        " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+        let g:coc_snippet_prev = '<c-k>'
 
-		" Use <leader>x for convert visual selected code to snippet
-		xmap <leader>x  <Plug>(coc-convert-snippet)
-		
-		inoremap <silent><expr> <TAB>
-			  \ pumvisible() ? coc#_select_confirm() :
-			  \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-			  \ <SID>check_back_space() ? "\<TAB>" :
-			  \ coc#refresh()
+        " Use <C-j> for both expand and jump (make expand higher priority.)
+        imap <C-j> <Plug>(coc-snippets-expand-jump)
 
-		function! s:check_back_space() abort
-		  let col = col('.') - 1
-		  return !col || getline('.')[col - 1]  =~# '\s'
-		endfunction
+        " Use <leader>x for convert visual selected code to snippet
+        xmap <leader>x  <Plug>(coc-convert-snippet)
 
-		let g:coc_snippet_next = '<tab>'
-	endif 
-			
-	if index(g:coc_global_extensions, "coc-translator") >= 0
-		" popup
-		nmap <Leader>t <Plug>(coc-translator-p)
-		vmap <Leader>t <Plug>(coc-translator-pv)
-		" echo
-		nmap <Leader>e <Plug>(coc-translator-e)
-		vmap <Leader>e <Plug>(coc-translator-ev)
-		" replace
-		nmap <Leader>r <Plug>(coc-translator-r)
-		vmap <Leader>r <Plug>(coc-translator-rv)
-	endif 
-			
-	if index(g:coc_global_extensions, "coc-yank") >= 0
-		nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
-	endif      
-endif   
+        inoremap <silent><expr> <TAB>
+              \ pumvisible() ? coc#_select_confirm() :
+              \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+              \ <SID>check_back_space() ? "\<TAB>" :
+              \ coc#refresh()
+
+        function! s:check_back_space() abort
+          let col = col('.') - 1
+          return !col || getline('.')[col - 1]  =~# '\s'
+        endfunction
+
+        let g:coc_snippet_next = '<tab>'
+    endif
+
+    if index(g:coc_global_extensions, "coc-translator") >= 0
+        " popup
+        nmap <Leader>t <Plug>(coc-translator-p)
+        vmap <Leader>t <Plug>(coc-translator-pv)
+        " echo
+        nmap <Leader>e <Plug>(coc-translator-e)
+        vmap <Leader>e <Plug>(coc-translator-ev)
+        " replace
+        nmap <Leader>r <Plug>(coc-translator-r)
+        vmap <Leader>r <Plug>(coc-translator-rv)
+    endif
+
+    if index(g:coc_global_extensions, "coc-yank") >= 0
+        nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
+    endif
+endif
 

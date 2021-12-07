@@ -78,17 +78,17 @@ set completeopt=longest,noinsert,menuone,noselect,preview
 " 设置代码折叠
 "----------------------------------------------------------------------
 if has('folding')
-	" 允许代码折叠
-	set foldenable
+    " 允许代码折叠
+    set foldenable
 
-	" 折叠的类型
-	set foldmethod=indent
+    " 折叠的类型
+    set foldmethod=indent
 
-	" 代码折叠默认使用缩进
-	set fdm=indent
+    " 代码折叠默认使用缩进
+    set fdm=indent
 
-	" 默认打开所有缩进
-	set foldlevel=99
+    " 默认打开所有缩进
+    set foldlevel=99
 endif
 
 "----------------------------------------------------------------------
@@ -112,14 +112,14 @@ set smartcase
 " 编码设置
 "----------------------------------------------------------------------
 if has('multi_byte')
-	" 内部工作编码
-	set encoding=utf-8
+    " 内部工作编码
+    set encoding=utf-8
 
-	" 文件默认编码
-	set fileencoding=utf-8
+    " 文件默认编码
+    set fileencoding=utf-8
 
-	" 打开文件时自动尝试下面顺序的编码
-	set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1
+    " 打开文件时自动尝试下面顺序的编码
+    set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1
 endif
 
 
@@ -127,7 +127,7 @@ endif
 " 允许 Vim 自带脚本根据文件类型自动设置缩进等
 "----------------------------------------------------------------------
 if has('autocmd')
-	filetype plugin indent on
+    filetype plugin indent on
 endif
 
 
@@ -135,8 +135,8 @@ endif
 " 语法高亮设置
 "----------------------------------------------------------------------
 if has('syntax')
-	syntax enable
-	syntax on
+    syntax enable
+    syntax on
 endif
 
 
@@ -188,10 +188,10 @@ set visualbell
 
 if has('persistent_undo')
     " 把撤销信息写入一个文件里
-	set undofile
+    set undofile
 
     " 保存撤销文件的位置
-	set undodir=$HOME/.config/nvim/tmp/undo,.
+    set undodir=$HOME/.config/nvim/tmp/undo,.
 endif
 
 " 刷新交换文件所需的毫秒数

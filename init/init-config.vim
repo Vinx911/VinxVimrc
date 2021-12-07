@@ -41,14 +41,14 @@ silent! call mkdir(expand('~/.vim/tmp'), "p", 0755)
 "----------------------------------------------------------------------
 augroup InitFileTypesGroup
 
-	" 清除同组的历史 autocommand
-	au!
+    " 清除同组的历史 autocommand
+    au!
 
-	" C/C++ 文件使用 // 作为注释
-	au FileType c,cpp setlocal commentstring=//\ %s
+    " C/C++ 文件使用 // 作为注释
+    au FileType c,cpp setlocal commentstring=//\ %s
 
-	" markdown 允许自动换行
-	au FileType markdown setlocal wrap
+    " markdown 允许自动换行
+    au FileType markdown setlocal wrap
 
 augroup END
 
