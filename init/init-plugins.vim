@@ -45,9 +45,6 @@ if index(g:plugin_group, 'basic') >= 0
 	Plug 'mhinz/vim-startify'
 	let g:startify_custom_header = 'startify#pad(split(system("figlet -w 100 VINX VIM"), "\n"))'
 	
-    " 状态栏滚动条
-    Plug 'ojroques/vim-scrollstatus'
-
 	" 成对插入或删除括号、括号、引号。
     Plug 'jiangmiao/auto-pairs'
 
@@ -73,12 +70,6 @@ if index(g:plugin_group, 'airline') >= 0
 	let g:airline#extensions#fugitiveline#enabled = 0
 	let g:airline#extensions#csv#enabled = 0
 	let g:airline#extensions#vimagit#enabled = 0
-    let g:airline_section_x = '%{ScrollStatus()}'
-    let g:airline_section_y = airline#section#create_right(['filetype'])
-    let g:airline_section_z = airline#section#create([
-            \ '%#__accent_bold#%3l%#__restore__#/%L', ' ',
-            \ '%#__accent_bold#%3v%#__restore__#/%3{virtcol("$") - 1}',
-            \ ])
 endif
 
 
